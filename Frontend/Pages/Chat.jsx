@@ -5,11 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthProvider.jsx';
 
 const ChatBot = () => {
-  const { isAuth , setIsAuth } = useAuth();
+  const { isAuth, setIsAuth } = useAuth();
+  const [isWaiting, setIsWaiting] = useState(false);
   const navigate = useNavigate();
-  useEffect( () => {
-      if(!isAuth)
-        navigate('/');
+  useEffect(() => {
+    if (!isAuth)
+      navigate('/');
   }, [isAuth]);
 
   const [messages, setMessages] = useState([
@@ -30,32 +31,27 @@ const ChatBot = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-   const get = await api.post('/Chat', { message: inputMessage } , { withCredentials: true });
-     console.log(get.data);
-  
-    // if (!inputMessage.trim()) return;
+    if (!inputMessage.trim() || isWaiting) return;
 
-    // // Add user message
-    // const userMessage = {
-    //   id: Date.now(),
-    //   type: 'user',
-    //   content: inputMessage
-    // };
+    setIsWaiting(true);
+    const userMessage = {
+      id: Date.now() + 1,
+      type: 'user',
+      content: inputMessage
+    };
+    setMessages((prev) => [...prev, userMessage]);
 
-    // setMessages(prev => [...prev, userMessage]);
-    // setInputMessage('');
-
-    // // Simulate bot response
-    // setTimeout(() => {
-    //   const botMessage = {
-    //     id: Date.now() + 1,
-    //     type: 'bot',
-    //     content: "This is a demo response. Connect to your backend for real AI responses."
-    //   };
-    //   setMessages(prev => [...prev, botMessage]);
-    // }, 1000);
+    const get = await api.post('/Chat', { message: inputMessage }, { withCredentials: true });
+    console.log(get);
+    const botMessage = {
+      id: Date.now() + 1,
+      type: 'bot',
+      content: get.data.response
+    };
+    setMessages((prev) => [...prev, botMessage]);
+    setIsWaiting(false);
   };
 
   return (
@@ -71,11 +67,10 @@ const ChatBot = () => {
               className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-[80%] rounded-lg p-3 ${
-                  message.type === 'user'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-white shadow-md text-gray-800'
-                }`}
+                className={`max-w-[80%] rounded-lg p-3 ${message.type === 'user'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-white shadow-md text-gray-800'
+                  }`}
               >
                 {message.content}
               </div>

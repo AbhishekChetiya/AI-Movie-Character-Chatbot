@@ -6,7 +6,7 @@ import { avengers_endgame } from "./Model/Dialogue.model.js";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "text-embedding-004" });
+const model = genAI.getGenerativeModel({ model: "text-embedding-004" , temperature: 0});
 
 async function scrapeScript() {
   try {
@@ -14,7 +14,6 @@ async function scrapeScript() {
     console.log("🔍 Fetching script...");
     const url = "https://imsdb.com/scripts/Avengers-Endgame.html";
     const { data } = await axios.get(url, { headers: { "User-Agent": "Mozilla/5.0" } });
-
     const $ = cheerio.load(data);
     const scriptText = $("pre").text();
 
