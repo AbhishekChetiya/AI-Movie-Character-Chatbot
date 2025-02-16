@@ -49,7 +49,6 @@ const loginuser = async (req, res) => {
   const RefreshToken = generateRefreshToken(user);
   user.refreshToken = RefreshToken;
   user.save({ validateBeforeSave: false });
-  res.res.setHeader("Content-Type", "application/json");
   return res.status(200).
     cookie("refreshToken", RefreshToken, {
       httpOnly: true,
@@ -64,7 +63,6 @@ const getDialogue = async (req, res) => {
   const get_dialogue = req.body.message;
   const cacheKey = `dialogue:${get_dialogue}`;
   let results = null;
-  res.res.setHeader("Content-Type", "application/json");
   try {
     // Check if the result is already cached
     let response = await getCachedData(cacheKey);
