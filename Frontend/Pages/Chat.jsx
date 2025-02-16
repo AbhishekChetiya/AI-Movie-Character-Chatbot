@@ -49,7 +49,12 @@ const ChatBot = () => {
     setMessages((prev) => [...prev, userMessage]);
 
     const get = await api.post('/Chat', { message: inputMessage }, { withCredentials: true });
-    console.log(get);
+    
+    if(get.status !== 205){
+      localStorage.removeItem('token');
+      setIsAuth(false);
+      navigate('/');
+    }  
     const botMessage = {
       id: Date.now() + 1,
       type: 'bot',
