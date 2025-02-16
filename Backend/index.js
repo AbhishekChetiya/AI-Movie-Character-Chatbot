@@ -49,7 +49,7 @@ app.listen(PORT, () => {
 // Middleware
 app.use(cors(
   {
-    origin: `${process.env.FRONTEND_URL}`,
+    origin: '*',
     credentials: true
   }
 ));
@@ -79,7 +79,7 @@ app.use("/", router);
 
 router.route("/register").post(registerUser)
 router.route("/login").post(loginuser);
-router.route("/Chat").post( getDialogue);
+router.route("/Chat").post(verifyJWT, getDialogue);
 router.route("/logout").post(verifyJWT, logout);
 app.get("/auth", checkAuth);
 
