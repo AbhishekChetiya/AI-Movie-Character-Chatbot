@@ -50,7 +50,7 @@ const ChatBot = () => {
 
     const get = await api.post('/Chat', { message: inputMessage }, { withCredentials: true });
     
-    if(get.status !== 205){
+    if(get.status === 205){
       localStorage.removeItem('token');
       setIsAuth(false);
       navigate('/');
