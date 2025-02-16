@@ -2,10 +2,9 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import dotenv from "dotenv";
-import mongoose, { get } from "mongoose";
-const PORT = 5000;
+import mongoose from "mongoose";
 import rateLimit from "express-rate-limit";
-
+const PORT = process.env.PORT || 5000;
 
 dotenv.config({
   path: './.env'
