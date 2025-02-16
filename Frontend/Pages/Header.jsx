@@ -9,6 +9,7 @@ const Header = () => {
     const handleLogout = async () => {
         try {
           await api.post("/logout", {}, { withCredentials: true });
+          localStorage.removeItem("token");
           setIsAuth(false);
           navigate("/"); 
         } catch (error) {
