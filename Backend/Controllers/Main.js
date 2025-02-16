@@ -68,7 +68,7 @@ const getDialogue = async (req, res) => {
     // Check if the result is already cached
     let response = await getCachedData(cacheKey);
     if (response != null && response != undefined) {
-      return res.status(200).json({  response });
+      return res.status(200).json({ message: response });
     }
    
     const result = await model.embedContent(get_dialogue);
@@ -126,13 +126,13 @@ const getDialogue = async (req, res) => {
     // Cache the response in Redis
     cacheData(cacheKey, response);
 
-    return res.status(200).json({ response });
+    return res.status(200).json({message: response });
   } catch (error) {
   
     if (results && results.length > 0) {
      
       await cacheData(cacheKey, results[0].dialogue);
-      return res.status(200).json({ response: results[0].dialogue });
+      return res.status(200).json({ message: results[0].dialogue });
     }
 
     return res.status(500).json({ message: "Something went wrong while processing the dialogue." });
