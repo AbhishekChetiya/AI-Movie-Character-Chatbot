@@ -49,7 +49,7 @@ app.listen(PORT, () => {
 // Middleware
 app.use(cors(
   {
-    origin: '*',
+    origin: 'https://ai-movie-character-chatbot.vercel.app/',
     credentials: true
   }
 ));
