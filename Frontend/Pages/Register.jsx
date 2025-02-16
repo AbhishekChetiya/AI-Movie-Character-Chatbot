@@ -73,14 +73,12 @@ const AuthPages = () => {
     try {
       if (isLogin) {
         const logindata  = await api.post('/login', formData , { withCredentials: true });
-        console.log(logindata);
-        localStorage.setItem("token", true);
+        localStorage.setItem("token", logindata.data.RefreshToken);
         setIsAuth(true);
         navigate('/Chat');
       } else {
         await api.post('/register', formData);
         toast.success('Account created successfully! Please login.');
-        setIsLogin(true);
       }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Something went wrong! Please try again.');

@@ -49,6 +49,7 @@ const loginuser = async (req, res) => {
   const RefreshToken = generateRefreshToken(user);
   user.refreshToken = RefreshToken;
   user.save({ validateBeforeSave: false });
+  res.res.setHeader("Content-Type", "application/json");
   return res.status(200).
     cookie("refreshToken", RefreshToken, {
       httpOnly: true,
@@ -56,19 +57,19 @@ const loginuser = async (req, res) => {
       sameSite: "Strict",
       maxAge: 7 * 24 * 60 * 60 * 1000
     }).
-    json({ RefreshToken , message: "User Successfully Login" });
+    json(JSON.stringify({ RefreshToken , message: "User Successfully Login" }));
 };
 
 const getDialogue = async (req, res) => {
   const get_dialogue = req.body.message;
   const cacheKey = `dialogue:${get_dialogue}`;
   let results = null;
-
+  res.res.setHeader("Content-Type", "application/json");
   try {
     // Check if the result is already cached
     let response = await getCachedData(cacheKey);
     if (response != null && response != undefined) {
-      return res.status(200).json({ message: response });
+      return res.status(200).json(JSON.stringify({ message: response }));
     }
    
     const result = await model.embedContent(get_dialogue);
@@ -88,7 +89,7 @@ const getDialogue = async (req, res) => {
     ]);
    
     if (results.length === 0) {
-      return res.status(404).json({ message: "No matching dialogue found." });
+      return res.status(404).json(JSON.stringify({ message: "No matching dialogue found." }));
     }
 
     const generationConfig = {
@@ -126,16 +127,16 @@ const getDialogue = async (req, res) => {
     // Cache the response in Redis
     cacheData(cacheKey, response);
 
-    return res.status(200).json({message: response });
+    return res.status(200).json(JSON.stringify({message: response }));
   } catch (error) {
   
     if (results && results.length > 0) {
      
       await cacheData(cacheKey, results[0].dialogue);
-      return res.status(200).json({ message: results[0].dialogue });
+      return res.status(200).json(JSON.stringify({ message: results[0].dialogue }));
     }
 
-    return res.status(500).json({ message: "Something went wrong while processing the dialogue." });
+    return res.status(500).json(JSON.stringify({ message: "Something went wrong while processing the dialogue." }));
   }
 };
 
