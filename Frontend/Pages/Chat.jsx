@@ -53,7 +53,7 @@ const ChatBot = () => {
     const botMessage = {
       id: Date.now() + 1,
       type: 'bot',
-      content: get.data.response
+      content: get.data.message
     };
     setMessages((prev) => [...prev, botMessage]);
     setIsWaiting(false);
