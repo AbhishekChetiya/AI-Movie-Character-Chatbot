@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import {useAuth} from "./AuthProvider";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
+import logo from "/logo.png";
 import { toast , ToastContainer } from "react-toastify";
 const Header = () => {
     const {isAuth,setIsAuth} = useAuth();
@@ -19,7 +20,7 @@ const Header = () => {
     
     return (
         <nav className="flex justify-between items-center p-4 bg-white shadow-md">
-        <div className="text-2xl font-bold text-blue-600">Logo</div>
+        <img src={logo} alt="Logo" className="h-10 w-auto object-contain" />
         <ToastContainer/>
         {isAuth && (
           <button
