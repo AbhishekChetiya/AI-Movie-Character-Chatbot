@@ -55,6 +55,7 @@ const ChatBot = () => {
       setIsAuth(false);
       navigate('/');
     }  
+    console.log(get);
     const botMessage = {
       id: Date.now() + 1,
       type: 'bot',

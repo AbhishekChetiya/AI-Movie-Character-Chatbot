@@ -74,6 +74,7 @@ const AuthPages = () => {
       if (isLogin) {
         const logindata  = await api.post('/login', formData , { withCredentials: true });
         localStorage.setItem("token", logindata.data.RefreshToken);
+        console.log(logindata);
         setIsAuth(true);
         navigate('/Chat');
       } else {
