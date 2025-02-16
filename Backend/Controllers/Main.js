@@ -56,21 +56,19 @@ const loginuser = async (req, res) => {
       sameSite: "Strict",
       maxAge: 7 * 24 * 60 * 60 * 1000
     }).
-    json({ user, message: "User Successfully Login" });
+    json({ RefreshToken , message: "User Successfully Login" });
 };
 
 const getDialogue = async (req, res) => {
   const get_dialogue = req.body.message;
-  console.log(get_dialogue)
-  // Generate a unique cache key based on the user's input
   const cacheKey = `dialogue:${get_dialogue}`;
   let results = null;
 
   try {
     // Check if the result is already cached
-    const cachedResponse = await getCachedData(cacheKey);
-    if (cachedResponse != null && cachedResponse != undefined) {
-      return res.status(200).json({ cachedResponse });
+    let response = await getCachedData(cacheKey);
+    if (response != null && response != undefined) {
+      return res.status(200).json({  response });
     }
    
     const result = await model.embedContent(get_dialogue);
@@ -123,7 +121,7 @@ const getDialogue = async (req, res) => {
       `User provided this dialogue: ${get_dialogue}\n\nThrough the similarity search, we found this dialogue from the Avenger Movie: "${results[0].dialogue}"`
     );
 
-    const response = queryResult.response.text();
+    response = queryResult.response.text();
     
     // Cache the response in Redis
     cacheData(cacheKey, response);

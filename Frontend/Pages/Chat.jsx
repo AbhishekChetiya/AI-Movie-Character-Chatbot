@@ -9,15 +9,20 @@ const ChatBot = () => {
   const [isWaiting, setIsWaiting] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    if (!isAuth)
-      navigate('/');
+    const toekn = localStorage.getItem('token');
+    if (toekn) {
+      setIsAuth(true);
+      navigate('/Chat');
+    } else {
+      setIsAuth(false);
+    }
   }, [isAuth]);
 
   const [messages, setMessages] = useState([
     {
       id: 1,
       type: 'bot',
-      content: "Hello! I'm your AI assistant. How can I help you today?",
+      content: "Hello! I'm your Avenger EndGame Dailouge AI assistant. How can I help you today?",
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
@@ -57,7 +62,7 @@ const ChatBot = () => {
   return (
     <div className="flex flex-col h-screen bg-gray-50">
       <div className="bg-white shadow-sm p-4">
-        <h1 className="text-xl font-bold text-center text-gray-800">AI Chat Assistant</h1>
+        <h1 className="text-xl font-bold text-center text-gray-800">Avenger Moive Dialouge AI Assistant</h1>
       </div>
       <div className="flex-1 overflow-y-auto p-4">
         <div className="max-w-2xl mx-auto space-y-4">

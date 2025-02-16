@@ -23,7 +23,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.13.0",
     "mongoose": "^8.10.0",
-    "redis": "^4.7.0"
+    "redis": "^4.7.0",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.17"

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import {useAuth} from "./AuthProvider";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
-
+import { toast , ToastContainer } from "react-toastify";
 const Header = () => {
     const {isAuth,setIsAuth} = useAuth();
     const navigate = useNavigate(); 
@@ -12,14 +12,14 @@ const Header = () => {
           setIsAuth(false);
           navigate("/"); 
         } catch (error) {
-          console.error("Logout failed:", error);
+          toast.error("Error while logging out");
         }
       };
     
     return (
         <nav className="flex justify-between items-center p-4 bg-white shadow-md">
         <div className="text-2xl font-bold text-blue-600">Logo</div>
-  
+        <ToastContainer/>
         {isAuth && (
           <button
             onClick={handleLogout}

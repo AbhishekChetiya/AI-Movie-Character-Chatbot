@@ -4,21 +4,17 @@ import "dotenv/config";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { avengers_endgame } from "./Model/Dialogue.model.js";
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "text-embedding-004" , temperature: 0});
 
 async function scrapeScript() {
   try {
-    console.log(GEMINI_API_KEY)
-    console.log("🔍 Fetching script...");
     const url = "https://imsdb.com/scripts/Avengers-Endgame.html";
     const { data } = await axios.get(url, { headers: { "User-Agent": "Mozilla/5.0" } });
     const $ = cheerio.load(data);
     const scriptText = $("pre").text();
 
     if (!scriptText) {
-      console.log("❌ Could not find the script content on the page.");
       return [];
     }
 
@@ -45,18 +41,14 @@ async function scrapeScript() {
     if (currentCharacter && currentDialogue.length) {
       movieData.push({ character: currentCharacter, dialogue: currentDialogue.join(" ") });
     }
-
-    console.log(`✅ Scraped ${movieData.length} dialogues.`);
     return movieData;
   } catch (error) {
-    console.error("❌ Error scraping the script:", error);
     return [];
   }
 }
 
 async function storeInDatabase(dialogues) {
   try {
-    console.log("💾 Storing data in MongoDB...");
     for (let i = 0; i < dialogues.length; i++) {
       const { character, dialogue } = dialogues[i];
 
@@ -69,9 +61,8 @@ async function storeInDatabase(dialogues) {
       const embedding = result.embedding.values;
       await avengers_endgame.create({ character, dialogue, embedding });
     }
-    console.log("✅ Data stored in MongoDB.");
   } catch (error) {
-    console.error("❌ Error storing in database:", error);
+     
   }
 }
 
@@ -82,4 +73,3 @@ export const StoreData = async () => {
     await storeInDatabase(dialogues);
   }
 }
-StoreData

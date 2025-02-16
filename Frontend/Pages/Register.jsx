@@ -20,8 +20,15 @@ const AuthPages = () => {
   const [errors, setErrors] = useState({});
 
   useEffect( () => {
-    if(isAuth)
+    
+    const toekn = localStorage.getItem("token");
+    if(toekn){
+      setIsAuth(true);
       navigate('/Chat');
+    }
+    else{
+      setIsAuth(false);
+    }
   }, [isAuth]);
   
   const handleChange = (e) => {
@@ -55,7 +62,6 @@ const AuthPages = () => {
     if (!isLogin && formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -66,8 +72,9 @@ const AuthPages = () => {
 
     try {
       if (isLogin) {
-        await api.post('/login', formData , { withCredentials: true });
-        toast.success('Logged in successfully!');
+        const logindata  = await api.post('/login', formData , { withCredentials: true });
+        console.log(logindata);
+        localStorage.setItem("token", true);
         setIsAuth(true);
         navigate('/Chat');
       } else {
