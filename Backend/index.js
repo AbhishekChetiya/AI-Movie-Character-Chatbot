@@ -49,7 +49,7 @@ app.listen(PORT, () => {
 // Middleware
 app.use(cors(
   {
-    origin: 'https://ai-movie-character-chatbot.vercel.app',
+    origin: ['https://ai-movie-character-chatbot.vercel.app', "https://another-frontend.com"],
     credentials: true
   }
 ));
@@ -97,7 +97,7 @@ const client = createClient({
       const maxDelay = 1000;
       return Math.min(baseDelay * 2 ** retries, maxDelay);
     },
-  keepAlive: true 
+    keepAlive: true
   }
 });
 
@@ -110,17 +110,17 @@ await client.connect().then(() => {
 });
 
 
-const cacheData = async(key, data) => {
+const cacheData = async (key, data) => {
 
-  const reply = await client.set(key, data, 'EX',1000*60*60*40);
+  const reply = await client.set(key, data, 'EX', 1000 * 60 * 60 * 40);
   console.log("Cache Response:", reply);
 };
 
-const getCachedData = async(key, callback) => {
-  
+const getCachedData = async (key, callback) => {
+
   const val = await client.get(key);
-  
-  return val; 
+
+  return val;
 };
 
 
