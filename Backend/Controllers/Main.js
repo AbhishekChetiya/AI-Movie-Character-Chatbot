@@ -53,7 +53,7 @@ const loginuser = async (req, res) => {
     cookie("refreshToken", RefreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "Strict",
+      sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000
     }).
     json({ RefreshToken , message: "User Successfully Login" });
