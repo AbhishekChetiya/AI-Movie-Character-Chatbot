@@ -44,7 +44,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-
+app.set("trust proxy", 1);
 
 // Middleware
 app.use(cors(
