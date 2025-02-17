@@ -150,7 +150,6 @@ const logout = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "Strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000
       }).json({ message: "User Logged Out Successfully" });
   }
   catch (error) {
