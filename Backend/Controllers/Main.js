@@ -53,7 +53,7 @@ const loginuser = async (req, res) => {
     cookie("refreshToken", RefreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "Strict",
+      sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000
     }).
     json({ RefreshToken , message: "User Successfully Login" });
@@ -149,7 +149,7 @@ const logout = async (req, res) => {
       clearCookie("refreshToken", {
         httpOnly: true,
         secure: true,
-        sameSite: "Strict",
+        sameSite: "None",
       }).json({ message: "User Logged Out Successfully" });
   }
   catch (error) {
