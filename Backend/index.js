@@ -80,7 +80,7 @@ app.use("/", router);
 router.route("/register").post(registerUser)
 router.route("/login").post(loginuser);
 router.route("/Chat").post(verifyJWT, getDialogue);
-router.route("/logout").post(verifyJWT, logout);
+router.route("/logout").post(logout);
 app.get("/auth", checkAuth);
 
 // Connect with the Redis 
