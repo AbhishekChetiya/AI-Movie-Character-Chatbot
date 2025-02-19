@@ -9,7 +9,7 @@ export const AuthProvider =   ({ children }) => {
     const checkAuth = async () => {
       try {
         const response = localStorage.getItem("token");  
-        if (response.data.isAuthenticated) {
+        if (response) {
           setIsAuth(true);
         } else {
           setIsAuth(false);

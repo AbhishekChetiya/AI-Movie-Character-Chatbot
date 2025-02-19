@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import {useAuth} from "./AuthProvider";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
 import logo from "/logo.png";
 import { toast , ToastContainer } from "react-toastify";
 const Header = () => {
@@ -9,7 +8,6 @@ const Header = () => {
     const navigate = useNavigate(); 
     const handleLogout = async () => {
         try {
-          await api.post("/logout", {}, { withCredentials: true });
           localStorage.removeItem("token");
           setIsAuth(false);
           navigate("/"); 

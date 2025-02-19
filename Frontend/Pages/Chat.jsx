@@ -3,6 +3,7 @@ import { Send } from 'lucide-react';
 import api from '../api.js';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthProvider.jsx';
+import { toast } from 'react-toastify';
 
 const ChatBot = () => {
   const { isAuth, setIsAuth } = useAuth();
@@ -12,11 +13,11 @@ const ChatBot = () => {
     const toekn = localStorage.getItem('token');
     if (toekn) {
       setIsAuth(true);
-      navigate('/Chat');
     } else {
       setIsAuth(false);
+      navigate('/');
     }
-  }, [isAuth]);
+  }, []);
 
   const [messages, setMessages] = useState([
     {
@@ -63,11 +64,16 @@ const ChatBot = () => {
 
     } catch (error) {
       if (error.status === 403) {
+        toast.error("Please Login Again. We are redirecting you to the login page.");
+
         localStorage.removeItem('token');
         setIsAuth(false);
-        navigate('/');
-        return;
+
+        setTimeout(() => {
+          navigate('/');
+        }, 1000); 
       }
+
       const botMessage = {
         id: Date.now() + 2,
         type: 'bot',
