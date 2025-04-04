@@ -6,7 +6,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "text-embedding-004", temperature: 0 });
 const modelforChat = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-import { cacheData, getCachedData } from "../index.js";
+// import { cacheData, getCachedData } from "../index.js";
 
 const generateRefreshToken = (user) => {
   return jwt.sign({ id: user._id, email: user.email }, process.env.TOKEN, { expiresIn: "7d" });
@@ -61,14 +61,13 @@ const loginuser = async (req, res) => {
 
 const getDialogue = async (req, res) => {
   const get_dialogue = req.body.message;
-  const cacheKey = `dialogue:${get_dialogue}`;
   let results = null;
   try {
     // Check if the result is already cached
-    let response = await getCachedData(cacheKey);
-    if (response != null && response != undefined) {
-      return res.status(200).json({ message: response });
-    }
+    // let response = await getCachedData(cacheKey);
+    // if (response != null && response != undefined) {
+    //   return res.status(200).json({ message: response });
+    // }
    
     const result = await model.embedContent(get_dialogue);
     const embedding = result.embedding.values; 
@@ -123,16 +122,16 @@ const getDialogue = async (req, res) => {
     response = queryResult.response.text();
     
     // Cache the response in Redis
-    cacheData(cacheKey, response);
+    // cacheData(cacheKey, response);
 
     return res.status(200).json({message: response });
   } catch (error) {
   
-    if (results && results.length > 0) {
+    // if (results && results.length > 0) {
      
-      await cacheData(cacheKey, results[0].dialogue);
-      return res.status(200).json({ message: results[0].dialogue });
-    }
+    //   // await cacheData(cacheKey, results[0].dialogue);
+    //   return res.status(200).json({ message: results[0].dialogue });
+    // }
 
     return res.status(500).json({ message: "Something went wrong while processing the dialogue." });
   }

@@ -84,45 +84,45 @@ router.route("/logout").post(logout);
 app.get("/auth", checkAuth);
 
 // Connect with the Redis 
-import { createClient } from 'redis';
+// import { createClient } from 'redis';
 
-const client = createClient({
-  username: 'default',
-  password: `${process.env.REDIS_PASSWORD}`,
-  socket: {
-    host: `${process.env.REDIS_HOST}`,
-    port: `${process.env.REDIS_PORT}`,
-    reconnectStrategy: retries => {
-      const baseDelay = 100;
-      const maxDelay = 1000;
-      return Math.min(baseDelay * 2 ** retries, maxDelay);
-    },
-    keepAlive: true
-  }
-});
+// const client = createClient({
+//   username: 'default',
+//   password: `${process.env.REDIS_PASSWORD}`,
+//   socket: {
+//     host: `${process.env.REDIS_HOST}`,
+//     port: `${process.env.REDIS_PORT}`,
+//     reconnectStrategy: retries => {
+//       const baseDelay = 100;
+//       const maxDelay = 1000;
+//       return Math.min(baseDelay * 2 ** retries, maxDelay);
+//     },
+//     keepAlive: true
+//   }
+// });
 
-export default client;
+// export default client;
 
-await client.connect().then(() => {
-  console.log("Connected to Redis successfully!");
-}).catch(err => {
-  console.log("Redis Connection Failed:", err);
-});
-
-
-const cacheData = async (key, data) => {
-
-  const reply = await client.set(key, data, 'EX', 1000 * 60 * 60 * 40);
-  console.log("Cache Response:", reply);
-};
-
-const getCachedData = async (key, callback) => {
-
-  const val = await client.get(key);
-
-  return val;
-};
+// await client.connect().then(() => {
+//   console.log("Connected to Redis successfully!");
+// }).catch(err => {
+//   console.log("Redis Connection Failed:", err);
+// });
 
 
+// const cacheData = async (key, data) => {
 
-export { cacheData, getCachedData };
+//   const reply = await client.set(key, data, 'EX', 1000 * 60 * 60 * 40);
+//   console.log("Cache Response:", reply);
+// };
+
+// const getCachedData = async (key, callback) => {
+
+//   const val = await client.get(key);
+
+//   return val;
+// };
+
+
+
+// export { cacheData, getCachedData };
