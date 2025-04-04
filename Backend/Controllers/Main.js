@@ -119,7 +119,7 @@ const getDialogue = async (req, res) => {
       `User provided this dialogue: ${get_dialogue}\n\nThrough the similarity search, we found this dialogue from the Avenger Movie: "${results[0].dialogue}"`
     );
 
-    response = queryResult.response.text();
+   let response = queryResult.response.text();
     
     // Cache the response in Redis
     // cacheData(cacheKey, response);

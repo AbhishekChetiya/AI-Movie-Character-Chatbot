@@ -49,7 +49,7 @@ app.set("trust proxy", 1);
 // Middleware
 app.use(cors(
   {
-    origin: ['https://ai-movie-character-chatbot.vercel.app', "http://localhost:5174"],
+    origin: ['https://ai-movie-character-chatbot.vercel.app', "http://localhost:5173"],
     credentials: true
   }
 ));
